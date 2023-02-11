@@ -1,2 +1,2 @@
-week-02 activity for cipher schools golang training
+# week-02 activity for cipher schools golang training
 
