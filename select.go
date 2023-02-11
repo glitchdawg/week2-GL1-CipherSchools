@@ -5,17 +5,31 @@ import (
 	"time"
 )
 
+
 func main(){
-	helloCh:=make(chan string,1)
-	goodbyeCh:=make(chan string,1)
-	quitCh:=make(chan bool)
-	go receiveMessage(helloCh,goodbyeCh,quitCh)
-	go sendMessage(helloCh,"Hello World")
-	time.Sleep(time.Second)
-	go sendMessage(helloCh, "Good Bye world")
-	result:=<-quitCh
-	fmt.Println("message from quitCh=",result)
+	channel:=make(chan int)
+	go func(){
+		channel<-1
+		time.Sleep(time.Second)
+		channel<-2
+		close(channel)
+	}()
+	for ch:=range channel{
+		fmt.Println(ch)
+	}
 }
+
+// func main(){
+// 	helloCh:=make(chan string,1)
+// 	goodbyeCh:=make(chan string,1)
+// 	quitCh:=make(chan bool)
+// 	go receiveMessage(helloCh,goodbyeCh,quitCh)
+// 	go sendMessage(helloCh,"Hello World")
+// 	time.Sleep(time.Second)
+// 	go sendMessage(helloCh, "Good Bye world")
+// 	result:=<-quitCh
+// 	fmt.Println("message from quitCh=",result)
+// }
 func sendMessage(ch chan<- string, message string) {
 	ch<-message
 }
