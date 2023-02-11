@@ -1,26 +1,46 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
+	// "fmt"
+	"io/ioutil"
 	"log"
-
-	"github.com/glitchdawg/week2-GL1-CipherSchools/database"
-	"github.com/glitchdawg/week2-GL1-CipherSchools/routers"
+	"os"
 )
-func init(){
-	database.Setup()//establish the database connection
+type Something struct {
+	Name    string  `json:"name"`
+	Married bool    `json:"married"`
+	Age     float64 `json:"age"`
+	Address Address `json:"address"`
+	Marks   []int   `json:"marks"`
 }
-func init(){
-	fmt.Println(1)
-}
-func init(){
-	fmt.Println(2)
+type Address struct {
+	Street int    `json:"street"`
+	City   string `json:"city"`
 }
 func main() {
-	
-	engine := routers.Router()
-	err := engine.Run("127.0.0.1:8000")
+	jsonFile, err := os.Open("something.json")
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer jsonFile.Close()
+	jsonByteValues, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var something Something
+	json.Unmarshal(jsonByteValues,&something)//converting json data to struct
+	// fmt.Println(string(jsonByteValues))//converting json data to string
+	log.Println(something)
+	newJsonByteValues, err := json.Marshal(something)
+	if err != nil {
+		log.Fatal(err)
+	}
+	os.WriteFile("some.json",newJsonByteValues,0644)
+	//consuming rest api in go code
+	//using the rest api
+	//returned value ? =json
+	//now you must know how to read json data in string format
+	//read json in struct format - marshalling, unmarshalling
+
 }
