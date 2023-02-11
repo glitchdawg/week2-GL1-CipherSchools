@@ -21,7 +21,7 @@ func Setup() {
 	// db,err:= gorm.Open("postgres",arg)
 	dsn := "host=localhost user=postgres password=postgres dbname=book  port=9920 sslmode=disable TimeZone=Asia/Shanghai"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
+	if err != nil { 
 		log.Fatal(err)
 	}
 	db.AutoMigrate(&models.Book{})

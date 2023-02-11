@@ -1,0 +1,10 @@
+{
+    "name":"joy",
+    "married":false,
+    "age":22.1,
+    "address":{
+        "street":123,
+        "city": "Bangalore"
+    },
+    "marks":[1,2,3,4,56,7,8,4]
+}
